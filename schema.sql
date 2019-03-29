@@ -15,7 +15,7 @@ CREATE TABLE bookInfo (
 CREATE TABLE image (
   id int NOT NULL AUTO_INCREMENT,
   bookInfo_id int,
-  image VARCHAR(300),
+  image BLOB,
   PRIMARY KEY (id)
 );
 
@@ -25,11 +25,26 @@ CREATE TABLE users (
   PRIMARY KEY (id)
 );
 
+
 CREATE TABLE ratings (
   id INT NOT NULL AUTO_INCREMENT,
   bookInfo_id int,
   user_id int,
   rating TINYINT,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE reviews (
+  id INT NOT NULL AUTO_INCREMENT,
+  ratings_id int,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE readStatus (
+  id INT NOT NULL AUTO_INCREMENT,
+  bookInfo_id int,
+  user_id int,
+  status TINYINT,
   PRIMARY KEY (id)
 );
 

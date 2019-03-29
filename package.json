@@ -4,21 +4,20 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "lint": "eslint .",
-    "posttest": "npm run lint && nsp check",
     "seed": "mysql -u root < schema.sql && node database/generator.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon server/index.js -w database -w server"
+    "start": "node server/index.js",
+    "start:dev": "nodemon server/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "babel": "^6.23.0",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "morgan": "^1.9.1",
     "mysql": "^2.16.0",
-    "nodemon": "^1.18.10",
-    "sequelize": "^5.2.3"
+    "nodemon": "^1.18.10"
   },
   "devDependencies": {
     "db-seed": "^1.2.0",
