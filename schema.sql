@@ -12,46 +12,59 @@ CREATE TABLE bookInfo (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE image (
+  id int NOT NULL AUTO_INCREMENT,
+  bookInfo_id int,
+  image BLOB,
+  PRIMARY KEY (id)
+);
+
 CREATE TABLE user (
   id INT NOT NULL AUTO_INCREMENT,
   email VARCHAR(50) NOT NULL,
   PRIMARY KEY (id)
 );
 
-CREATE TABLE image (
-  bookInfo_id int,
-  image BLOB
-);
 
 CREATE TABLE ratings (
+  id INT NOT NULL AUTO_INCREMENT,
   bookInfo_id int,
   user_id int,
-  rating TINYINT
+  rating TINYINT,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE reviews (
-  bookInfo_id int,
-  user_id int
+  id INT NOT NULL AUTO_INCREMENT,
+  ratings_id int,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE toRead (
+  id INT NOT NULL AUTO_INCREMENT,
   bookInfo_id int,
-  user_id int
+  user_id int,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE readStatus (
+  id INT NOT NULL AUTO_INCREMENT,
   bookInfo_id int,
   user_id int,
-  status TINYINT
+  status TINYINT,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE shelf (
-  id int NOT NULL,
-  name VARCHAR(20)
+  id int NOT NULL AUTO_INCREMENT,
+  name VARCHAR(20),
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE bookShelf (
+  id int NOT NULL AUTO_INCREMENT,
   bookInfo_id int,
   user_id int,
-  shelf_id int
+  shelf_id int,
+  PRIMARY KEY (id)
 );

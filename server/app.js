@@ -13,6 +13,7 @@ app.get('/', function(req, res) {
 app.use(express.static('client/dist'));
 
 app.get('/books/:id', function(req, res) {
+  const id = req.params.id;
   const reactPath = path.join(__dirname, '../public/index.html');
   res.sendFile(reactPath);
 });
@@ -20,3 +21,4 @@ app.get('/books/:id', function(req, res) {
 app.use('/api', routes);
 
 module.exports = app;
+
