@@ -15,16 +15,15 @@ CREATE TABLE bookInfo (
 CREATE TABLE image (
   id int NOT NULL AUTO_INCREMENT,
   bookInfo_id int,
-  image BLOB,
+  image VARCHAR(300),
   PRIMARY KEY (id)
 );
 
-CREATE TABLE user (
+CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
   email VARCHAR(50) NOT NULL,
   PRIMARY KEY (id)
 );
-
 
 CREATE TABLE ratings (
   id INT NOT NULL AUTO_INCREMENT,
@@ -34,30 +33,9 @@ CREATE TABLE ratings (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE reviews (
-  id INT NOT NULL AUTO_INCREMENT,
-  ratings_id int,
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE toRead (
-  id INT NOT NULL AUTO_INCREMENT,
-  bookInfo_id int,
-  user_id int,
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE readStatus (
-  id INT NOT NULL AUTO_INCREMENT,
-  bookInfo_id int,
-  user_id int,
-  status TINYINT,
-  PRIMARY KEY (id)
-);
-
 CREATE TABLE shelf (
   id int NOT NULL AUTO_INCREMENT,
-  name VARCHAR(20),
+  name VARCHAR(200),
   PRIMARY KEY (id)
 );
 
