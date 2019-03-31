@@ -20,6 +20,18 @@ app.get( '/books/:id', async (req, res) => {
   }
 });
 
+app.get( '/books/:id', async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const rows = await db.getBookInfo(id);
+  if(rows && rows.length){
+    res.json(rows[0]);
+  } else {
+    res.json({ error: 'no data'})
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
 });

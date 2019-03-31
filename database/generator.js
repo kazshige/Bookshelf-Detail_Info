@@ -14,7 +14,7 @@ class DummyDataGenerator {
     return status[Math.floor(Math.random() * status.length)];
   };
 
-  async createBookInfo() {
+  async seedBookInfo() {
 
     for (let j = 0; j < 100; j++) {
 
@@ -31,7 +31,7 @@ class DummyDataGenerator {
       let image = faker.image.imageUrl();
 
       await db.insertBookImage(bookId, image);
-      await this.createRatings(bookId);
+      await this.seedRatings(bookId);
 
       for(const user of this.users) {
         const status = this.getRandomStatus();
@@ -40,7 +40,7 @@ class DummyDataGenerator {
     }
   };
 
-  async createUsers() {
+  async seedUsers() {
     this.users = [];
     for (let i = 0; i < 100; i++) {
       let data = {
@@ -51,15 +51,15 @@ class DummyDataGenerator {
     }
   };
 
-  async createShelf(){
-    let shelves = [];
+  async seedShelf(){
+    let shelf = [];
     for (let i =0; i < 200; i++){
       let s = await db.insertShelf(faker.random.word(10));
-      shelves.push(s);
+      shelf.push(s);
     }
   };
 
-  async createRatings(bookId) {
+  async seedRatings(bookId) {
     for (let k = 0; k < 20; k++) {
       let userId = Math.ceil(Math.random() * 100); // get user id
       let rating = Math.ceil(Math.random() * 5);
@@ -70,15 +70,15 @@ class DummyDataGenerator {
     }
   };
 
-  async createData() {
-    await this.createUsers();
-    await this.createBookInfo();
-    await this.createShelf();
+  async seedData() {
+    await this.seedUsers();
+    await this.seedBookInfo();
+    await this.seedShelf();
   }
 };
 
 new DummyDataGenerator()
-.createData()
+.seedData()
 .then(() => {
   db.close()
 });
