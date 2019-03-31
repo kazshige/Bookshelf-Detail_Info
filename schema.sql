@@ -5,7 +5,7 @@ CREATE DATABASE books;
 USE books;
 
 CREATE TABLE bookInfo (
-  id int NOT NULL AUTO_INCREMENT,
+  id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(100) NOT NULL,
   author VARCHAR(100) NOT NULL,
   description TEXT NOT NULL,
@@ -13,8 +13,8 @@ CREATE TABLE bookInfo (
 );
 
 CREATE TABLE image (
-  id int NOT NULL AUTO_INCREMENT,
-  bookInfo_id int,
+  id INT NOT NULL AUTO_INCREMENT,
+  bookInfo_id INT,
   image BLOB,
   PRIMARY KEY (id)
 );
@@ -22,42 +22,44 @@ CREATE TABLE image (
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
   email VARCHAR(50) NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  bookInfo_id INT
 );
 
 
 CREATE TABLE ratings (
   id INT NOT NULL AUTO_INCREMENT,
-  bookInfo_id int,
-  user_id int,
+  bookInfo_id INT,
+  user_id INT,
   rating TINYINT,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE reviews (
   id INT NOT NULL AUTO_INCREMENT,
-  ratings_id int,
+  bookInfo_id INT,
+  review TEXT NOT NULL,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE readStatus (
   id INT NOT NULL AUTO_INCREMENT,
-  bookInfo_id int,
+  bookInfo_id INT,
   user_id int,
   status TINYINT,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE shelf (
-  id int NOT NULL AUTO_INCREMENT,
+  id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(200),
   PRIMARY KEY (id)
 );
 
 CREATE TABLE bookShelf (
-  id int NOT NULL AUTO_INCREMENT,
-  bookInfo_id int,
-  user_id int,
-  shelf_id int,
+  id INT NOT NULL AUTO_INCREMENT,
+  bookInfo_id INT,
+  user_id INT,
+  shelf_id INT,
   PRIMARY KEY (id)
 );

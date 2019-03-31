@@ -44,7 +44,8 @@ class DummyDataGenerator {
     this.users = [];
     for (let i = 0; i < 100; i++) {
       let data = {
-        email: faker.internet.email()
+        email: faker.internet.email(),
+        bookInfo_id: 1
       };
       let user = await db.insertUsers(data)
       this.users.push(user.insertId);
@@ -64,9 +65,13 @@ class DummyDataGenerator {
       let userId = Math.ceil(Math.random() * 100); // get user id
       let rating = Math.ceil(Math.random() * 5);
 
-      const result = await db.insertRatings(bookId, userId, rating);
+      await db.insertRatings(bookId, userId, rating);
 
-      await db.insertReviews(result.insertId);
+      const review = {
+        bookId,
+        review: faker.lorem.sentences()
+      }
+      await db.insertReviews(review);
     }
   };
 

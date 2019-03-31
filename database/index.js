@@ -22,6 +22,8 @@ const getBookInfo = function(bookId) {
   return query('SELECT * FROM bookInfo WHERE id='+bookId);
 };
 
+
+// image, ratings, reviews, readStatus, shelf, bookShelf
 const insertBookInfo = function(data) {
   return query('INSERT INTO bookInfo (title, author, description) VALUES(?, ?, ?)', [data.title, data.author, data.description]);
 };
@@ -30,16 +32,28 @@ const insertBookImage = function(bookId, image) {
   return query('INSERT INTO image (bookInfo_id, image) VALUES(?, ?)', [bookId, image]);
 };
 
+const getUserInfo = function(bookInfo_id) {
+  return query('SELECT * FROM users WHERE bookInfo_id='+bookInfo_id);
+};
+
 const insertUsers = function(user) {
-  return query('INSERT INTO users (email) VALUES(?)', [user.email]);
+  return query('INSERT INTO users (email, bookInfo_id) VALUES(?, ?)', [user.email, user.bookInfo_id]);
+};
+
+const getRatings = function(bookInfo_id) {
+  return query('SELECT * FROM ratings WHERE bookInfo_id='+bookInfo_id);
 };
 
 const insertRatings = function(bookId, userId, rating) {
   return query('INSERT INTO ratings (bookInfo_id, user_id, rating) VALUES(?, ?, ?)', [bookId, userId, rating]);
 };
 
-const insertReviews = function(ratingId) {
-  return query('INSERT INTO reviews (ratings_id) VALUES(?)', [ratingId]);
+const getReviews = function(bookInfo_id) {
+  return query('SELECT * FROM reviews WHERE bookInfo_id='+bookInfo_id);
+};
+
+const insertReviews = function({bookId, review}) {
+  return query('INSERT INTO reviews (bookInfo_id, review) VALUES(?, ?)', [bookId, review]);
 };
 
 const insertReadStatus = function(bookId, userId, status) {
@@ -59,11 +73,14 @@ module.exports = {
   getBookInfo,
   insertBookInfo,
   insertBookImage,
+  getUserInfo,
   insertUsers,
+  getRatings,
   insertRatings,
+  getReviews,
+  insertReviews,
   insertShelf,
   insertBookshelf,
-  insertReviews,
   insertReadStatus,
   close: () => connection.end()
 };
