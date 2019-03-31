@@ -22,7 +22,6 @@ const getBookInfo = function(bookId) {
   return query('SELECT * FROM bookInfo WHERE id='+bookId);
 };
 
-
 // image, ratings, reviews, readStatus, shelf, bookShelf
 const insertBookInfo = function(data) {
   return query('INSERT INTO bookInfo (title, author, description) VALUES(?, ?, ?)', [data.title, data.author, data.description]);
@@ -57,15 +56,15 @@ const insertReviews = function({bookId, review}) {
 };
 
 const insertReadStatus = function(bookId, userId, status) {
-  return query('INSERT INTO readStatus (bookInfo_id, user_id, status) VALUES(?, ?, ?)', [bookId, userId, status]);
+  return query(`UPDATE readStatus SET status = ${status} WHERE user_id = ${userId} AND bookInfo_id = ${bookId}`);
 };
 
-const insertShelf = function(name) {
-  return query('INSERT INTO shelf (name) VALUES(?)', [name]);
+const insertShelf = function(name, user_id) {
+  return query('INSERT INTO shelf (name, user_id) VALUES(?,?)', [name, user_id]);
 };
 
-const insertBookshelf = function(bookId, userId, shelfId) {
-  return query('INSERT INTO bookShelf (bookInfo_id, user_id, shelf_id) VALUES(?, ?, ?)', [bookId, userId, shelfId]);
+const insertBookshelf = function(bookId, shelfId) {
+  return query('INSERT INTO bookShelf (bookInfo_id, shelf_id) VALUES(?, ?)', [bookId, shelfId]);
 };
 
 module.exports = {

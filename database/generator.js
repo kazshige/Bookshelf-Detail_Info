@@ -54,9 +54,11 @@ class DummyDataGenerator {
 
   async seedShelf(){
     let shelf = [];
-    for (let i =0; i < 200; i++){
-      let s = await db.insertShelf(faker.random.word(10));
-      shelf.push(s);
+    for(let j=1; j<=100; j++){
+      for (let i =0; i < 5; i++){
+        let s = await db.insertShelf(faker.random.word(10), j);
+        shelf.push(s);
+      }
     }
   };
 

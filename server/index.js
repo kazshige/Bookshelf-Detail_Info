@@ -65,7 +65,46 @@ app.get('/books/:id/reviews', async (req, res) => {
   }
 });
 
+app.put('/books/:id/users/:userId/readStatus', async (req, res) => {
+  const id = req.params.id;
+  const userId = req.params.userId;
+  const { status } = req.body;
+  console.log(id);
+  try{
+    await db.insertReadStatus(id, userId, status);
+    res.json({ success: true})
 
+  }catch(e){
+    res.json({ error: e.message})
+  }
+});
+
+// Adding a shelf
+app.post('/users/:userId/shelf', async (req, res) => {
+  const { shelfName } = req.body;
+  const userId = req.params.userId;
+  try{
+    await db.insertShelf(shelfName, userId);
+    res.json({ success: true})
+
+  }catch(e){
+    res.json({ error: e.message})
+  }
+});
+
+// Adding a shelf to bookShelf
+app.post('/books/:id/users/:userId/shelf/:shelfId', async (req, res) => {
+  const id = req.params.id;
+  const shelfId = req.params.shelfId;
+  console.log(id);
+  try{
+    await db.insertBookshelf(id, shelfId);
+    res.json({ success: true})
+
+  }catch(e){
+    res.json({ error: e.message})
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)

@@ -53,13 +53,13 @@ CREATE TABLE readStatus (
 CREATE TABLE shelf (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(200),
+  user_id INT,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE bookShelf (
   id INT NOT NULL AUTO_INCREMENT,
   bookInfo_id INT,
-  user_id INT,
   shelf_id INT,
   PRIMARY KEY (id)
 );
