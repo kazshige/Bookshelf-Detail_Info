@@ -10,8 +10,6 @@ const s3 = new AWS.S3({
   secretAccessKey: config.secretAccessKey,
 });
 
-
-
 class DummyDataGenerator {
   constructor() {
   }

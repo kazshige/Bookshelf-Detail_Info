@@ -35,6 +35,21 @@ app.get('/books/:id/users', async (req, res) => {
   }
 });
 
+app.get('/books/:id/image', async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  try{
+    const rows = await db.getBookImage(id);
+  if(rows && rows.length){
+    res.json(rows);
+  } else {
+    res.json({ error: 'no data'})
+  }
+  }catch(e){
+    res.json({ error: e.message })
+  }
+});
+
 app.get('/books/:id/', async (req, res) => {
   const id = req.params.id;
   console.log(id);

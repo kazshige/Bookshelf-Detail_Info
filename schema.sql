@@ -15,7 +15,7 @@ CREATE TABLE bookInfo (
 CREATE TABLE image (
   id INT NOT NULL AUTO_INCREMENT,
   bookInfo_id INT,
-  image BLOB,
+  image VARCHAR(500) NOT NULL,
   PRIMARY KEY (id)
 );
 

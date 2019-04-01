@@ -27,6 +27,10 @@ const insertBookInfo = function(data) {
   return query('INSERT INTO bookInfo (title, author, description) VALUES(?, ?, ?)', [data.title, data.author, data.description]);
 };
 
+const getBookImage = function(bookId) {
+  return query('SELECT * FROM image WHERE bookInfo_id='+bookId);
+};
+
 const insertBookImage = function(bookId, image) {
   return query('INSERT INTO image (bookInfo_id, image) VALUES(?, ?)', [bookId, image]);
 };
@@ -71,6 +75,7 @@ module.exports = {
   getAllBookInfo,
   getBookInfo,
   insertBookInfo,
+  getBookImage,
   insertBookImage,
   getUserInfo,
   insertUsers,
