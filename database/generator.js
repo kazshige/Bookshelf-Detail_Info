@@ -1,9 +1,50 @@
+const AWS = require('aws-sdk');
+const config = require('./config')
+
 const db = require('./');
 const faker = require('faker');
+
+const s3 = new AWS.S3({
+  region: 'ap-northeast-1',
+  accessKeyId: config.accessKeyID,
+  secretAccessKey: config.secretAccessKey,
+});
+
+
 
 class DummyDataGenerator {
   constructor() {
   }
+
+  async listAllObjectsFromS3Bucket(bucket, prefix) {
+    let isTruncated = true;
+    let marker;
+    const items = []
+    while(isTruncated) {
+      let params = { Bucket: bucket };
+      // any pattern of name of files
+      if (prefix) params.Prefix = prefix;
+      if (marker) params.Marker = marker;
+      try {
+        const response = await s3.listObjects(params).promise();
+        response.Contents.forEach(item => {
+          const url = s3.getSignedUrl('getObject', {
+            Bucket: bucket,
+            Key: item.Key,
+            Expires: 60*60
+          })
+          items.push(url);
+        });
+        isTruncated = response.IsTruncated;
+        if (isTruncated) {
+          marker = response.Contents.slice(-1)[0].Key;
+        }
+    } catch(error) {
+    throw error;
+    }
+  }
+  return items
+}
 
   getRandomStatus() {
     const status = [
@@ -29,9 +70,11 @@ class DummyDataGenerator {
       const result = await db.insertBookInfo(data);
       const bookId = result.insertId;
 
-      let image = faker.image.imageUrl();
+      const images = await this.listAllObjectsFromS3Bucket(config.s3BucketName)
 
-      await db.insertBookImage(bookId, image);
+      const randomIndex = Math.round(Math.random())
+
+      await db.insertBookImage(bookId, images[randomIndex]);
       await this.seedRatings(bookId);
 
       for(const user of this.users) {
@@ -40,7 +83,7 @@ class DummyDataGenerator {
       }
     }
   };
-  
+
   // Seed 100 users
   async seedUsers() {
     this.users = [];
