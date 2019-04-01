@@ -16,10 +16,12 @@
     "babel": "^6.23.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "jest": "^24.5.0",
     "morgan": "^1.9.1",
     "mysql": "^2.16.0",
     "nodemon": "^1.18.10",
-    "s3": "^4.4.0"
+    "s3": "^4.4.0",
+    "supertest": "^4.0.2"
   },
   "devDependencies": {
     "db-seed": "^1.2.0",
