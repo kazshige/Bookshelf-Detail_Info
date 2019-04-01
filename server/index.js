@@ -12,11 +12,15 @@ app.use(morgan('dev'));
 app.get('/books/:id', async (req, res) => {
   const id = req.params.id;
   console.log(id);
+  try {
   const rows = await db.getBookInfo(id);
   if(rows && rows.length){
     res.json(rows[0]);
   } else {
-    res.json({ error: 'no data'})
+    res.status(404).json({ error: 'no data'})
+  }
+  }catch(e){
+    res.status(500).json({ error: e.message })
   }
 });
 
@@ -28,10 +32,10 @@ app.get('/books/:id/users', async (req, res) => {
   if(rows && rows.length){
     res.json(rows);
   } else {
-    res.json({ error: 'no data'})
+    res.status(404).json({ error: 'no data' })
   }
   }catch(e){
-    res.json({ error: e.message})
+    res.status(500).json({ error: e.message })
   }
 });
 
@@ -43,14 +47,14 @@ app.get('/books/:id/image', async (req, res) => {
   if(rows && rows.length){
     res.json(rows);
   } else {
-    res.json({ error: 'no data'})
+    res.status(404).json({ error: 'no data' })
   }
   }catch(e){
-    res.json({ error: e.message })
+    res.status(500).json({ error: e.message })
   }
 });
 
-app.get('/books/:id/', async (req, res) => {
+app.get('/books/:id/users', async (req, res) => {
   const id = req.params.id;
   console.log(id);
   try{
@@ -58,10 +62,10 @@ app.get('/books/:id/', async (req, res) => {
   if(rows && rows.length){
     res.json(rows);
   } else {
-    res.json({ error: 'no data'})
+    res.status(404).json({ error: 'no data'})
   }
   }catch(e){
-    res.json({ error: e.message})
+    res.status(500).json({ error: e.message})
   }
 });
 
@@ -73,10 +77,10 @@ app.get('/books/:id/ratings', async (req, res) => {
   if(rows && rows.length){
     res.json(rows);
   } else {
-    res.json({ error: 'no data'})
+    res.status(404).json({ error: 'no data'})
   }
   }catch(e){
-    res.json({ error: e.message})
+    res.status(500).json({ error: e.message})
   }
 });
 
@@ -88,10 +92,10 @@ app.get('/books/:id/reviews', async (req, res) => {
   if(rows && rows.length){
     res.json(rows);
   } else {
-    res.json({ error: 'no data'})
+    res.status(404).json({ error: 'no data'})
   }
   }catch(e){
-    res.json({ error: e.message})
+    res.status(500).json({ error: e.message})
   }
 });
 
@@ -102,10 +106,10 @@ app.put('/books/:id/users/:userId/readStatus', async (req, res) => {
   console.log(id);
   try{
     await db.insertReadStatus(id, userId, status);
-    res.json({ success: true})
+    res.json({ success: true })
 
   }catch(e){
-    res.json({ error: e.message})
+    res.status(500).json({ error: e.message })
   }
 });
 
@@ -115,10 +119,10 @@ app.post('/users/:userId/shelf', async (req, res) => {
   const userId = req.params.userId;
   try{
     await db.insertShelf(shelfName, userId);
-    res.json({ success: true})
+    res.json({ success: true })
 
   }catch(e){
-    res.json({ error: e.message})
+    res.status(500).json({ error: e.message })
   }
 });
 
@@ -129,13 +133,14 @@ app.post('/books/:id/users/:userId/shelf/:shelfId', async (req, res) => {
   console.log(id);
   try{
     await db.insertBookshelf(id, shelfId);
-    res.json({ success: true})
+    res.json({ success: true })
 
   }catch(e){
-    res.json({ error: e.message})
+    res.status(500).json({ error: e.message })
   }
 });
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
 });
+module.exports = app
