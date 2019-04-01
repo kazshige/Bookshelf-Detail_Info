@@ -14,6 +14,7 @@ class DummyDataGenerator {
     return status[Math.floor(Math.random() * status.length)];
   };
 
+  // Seed 100 book information
   async seedBookInfo() {
 
     for (let j = 0; j < 100; j++) {
@@ -39,7 +40,8 @@ class DummyDataGenerator {
       }
     }
   };
-
+  
+  // Seed 100 users
   async seedUsers() {
     this.users = [];
     for (let i = 0; i < 100; i++) {

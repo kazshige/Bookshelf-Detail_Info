@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.432.0",
     "babel": "^6.23.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",

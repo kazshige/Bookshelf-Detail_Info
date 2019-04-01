@@ -35,6 +35,22 @@ app.get('/books/:id/users', async (req, res) => {
   }
 });
 
+app.get('/books/:id/', async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  try{
+    const rows = await db.getUserInfo(id);
+  if(rows && rows.length){
+    res.json(rows);
+  } else {
+    res.json({ error: 'no data'})
+  }
+  }catch(e){
+    res.json({ error: e.message})
+  }
+});
+
+
 app.get('/books/:id/ratings', async (req, res) => {
   const id = req.params.id;
   console.log(id);
@@ -64,6 +80,7 @@ app.get('/books/:id/reviews', async (req, res) => {
     res.json({ error: e.message})
   }
 });
+
 
 app.put('/books/:id/users/:userId/readStatus', async (req, res) => {
   const id = req.params.id;
