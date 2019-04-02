@@ -17,7 +17,9 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-
+      - run:
+          name: Set up db
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
       - run: npm install
 
       - save_cache:
