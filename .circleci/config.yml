@@ -26,7 +26,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-        name: seed db
-        command: npm run seed
+          name: seed db
+          command: npm run seed
 
       - run: npm test
