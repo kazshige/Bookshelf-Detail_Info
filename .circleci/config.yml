@@ -20,6 +20,9 @@ jobs:
       - run:
           name: Set up db
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run:
+          name: Install dependecies
+          command: sudo apt install mysql-client libqt4-dev libqtwebkit-dev bzip2
       - run: npm install
 
       - save_cache:
