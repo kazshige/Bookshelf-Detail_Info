@@ -22,7 +22,7 @@ jobs:
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
       - run:
           name: Install dependecies
-          command: sudo apt install mysql-client libqt4-dev libqtwebkit-dev bzip2
+          command: sudo apt install mysql-client
       - run: npm install
 
       - save_cache:
