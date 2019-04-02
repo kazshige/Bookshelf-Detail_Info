@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "seed": "mysql -u root < schema.sql && node database/generator.js",
+    "seed": "node database/generator.js",
     "start": "node server/index.js",
     "start:dev": "nodemon server/index.js"
   },

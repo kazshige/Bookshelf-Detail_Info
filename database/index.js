@@ -1,7 +1,9 @@
 const mysql = require('mysql');
+const Promise = require('bluebird');
 const mysqlConfig = require('./config.js');
 
 const connection = mysql.createConnection(mysqlConfig);
+// const db = Promise.promisifyAll(connection, { multiArgs: true });
 
 const query = function(query, placeholders) {
   return new Promise((resolve, reject) => {
@@ -86,5 +88,6 @@ module.exports = {
   insertShelf,
   insertBookshelf,
   insertReadStatus,
+  queryAsync: query,
   close: () => connection.end()
 };

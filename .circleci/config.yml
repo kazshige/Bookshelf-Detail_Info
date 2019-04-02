@@ -21,9 +21,6 @@ jobs:
           name: Set up db
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
-      - run:
-          name: Install dependecies
-          command: sudo apt-get install mysql-client
       - run: npm install
 
       - save_cache:
