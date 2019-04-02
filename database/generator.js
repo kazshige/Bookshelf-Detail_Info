@@ -1,14 +1,96 @@
 const AWS = require('aws-sdk');
 const config = require('./config')
+const s3Config = require('./s3')
 
 const db = require('./');
 const faker = require('faker');
 
 const s3 = new AWS.S3({
   region: 'ap-northeast-1',
-  accessKeyId: config.accessKeyID,
-  secretAccessKey: config.secretAccessKey,
+  accessKeyId: s3Config.accessKeyID,
+  secretAccessKey: s3Config.secretAccessKey,
 });
+
+const createDB = () => {
+  return db.queryAsync(`
+    CREATE TABLE IF NOT EXISTS bookInfo (
+      id INT NOT NULL AUTO_INCREMENT,
+      title VARCHAR(100) NOT NULL,
+      author VARCHAR(100) NOT NULL,
+      description TEXT NOT NULL,
+      PRIMARY KEY (id)
+      );`)
+    .then(() => {
+      return db.queryAsync(`
+        CREATE TABLE IF NOT EXISTS image (
+          id INT NOT NULL AUTO_INCREMENT,
+          bookInfo_id INT,
+          image VARCHAR(500) NOT NULL,
+          PRIMARY KEY (id)
+      );`);
+    })
+    .then(() => {
+      return db.queryAsync(`
+        CREATE TABLE IF NOT EXISTS users (
+          id INT NOT NULL AUTO_INCREMENT,
+          email VARCHAR(50) NOT NULL,
+          PRIMARY KEY (id),
+          bookInfo_id INT
+      );`);
+    })
+    .then(() => {
+      return db.queryAsync(`
+      CREATE TABLE IF NOT EXISTS ratings (
+        id INT NOT NULL AUTO_INCREMENT,
+        bookInfo_id INT,
+        user_id INT,
+        rating TINYINT,
+        PRIMARY KEY (id)
+      );`)
+    })
+    .then(() => {
+      return db.queryAsync(`
+        CREATE TABLE IF NOT EXISTS reviews (
+          id INT NOT NULL AUTO_INCREMENT,
+          bookInfo_id INT,
+          review TEXT NOT NULL,
+          PRIMARY KEY (id)
+      );`)
+    })
+    .then(() => {
+      return db.queryAsync(`
+        CREATE TABLE IF NOT EXISTS readStatus (
+          id INT NOT NULL AUTO_INCREMENT,
+          bookInfo_id INT,
+          user_id int,
+          status TINYINT,
+          PRIMARY KEY (id)
+      );`)
+    })
+    .then(() => {
+      return db.queryAsync(`
+        CREATE TABLE IF NOT EXISTS shelf (
+          id INT NOT NULL AUTO_INCREMENT,
+          name VARCHAR(200),
+          user_id INT,
+          PRIMARY KEY (id)
+      );`)
+    })
+    .then(() => {
+      return db.queryAsync(`
+        CREATE TABLE IF NOT EXISTS bookShelf (
+          id INT NOT NULL AUTO_INCREMENT,
+          bookInfo_id INT,
+          shelf_id INT,
+          PRIMARY KEY (id)
+      );`)
+    })
+    .error((err) => {
+      console.log('error creating tables', err)
+    });
+};
+
+db.connectAsync()
 
 class DummyDataGenerator {
   constructor() {
