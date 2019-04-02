@@ -19,53 +19,30 @@ app.get('/books/:id', async (req, res) => {
   } else {
     res.status(404).json({ error: 'no data'})
   }
-  }catch(e){
-    res.status(500).json({ error: e.message })
+  } catch(e){
+    res.status(422).json({ error: e.message })
   }
 });
 
 app.get('/books/:id/users', async (req, res) => {
-  const id = req.params.id;
-  console.log(id);
-  try{
-    const rows = await db.getUserInfo(id);
-  if(rows && rows.length){
-    res.json(rows);
-  } else {
-    res.status(404).json({ error: 'no data' })
-  }
-  }catch(e){
-    res.status(500).json({ error: e.message })
+  let id = req.params.id;
+  id = parseInt(id);
+    if(isNaN(id)) {
+      res.status(422).json()
+    } else {
+      const rows = await db.getUserInfo(id);
+      res.json(rows);
   }
 });
 
 app.get('/books/:id/image', async (req, res) => {
-  const id = req.params.id;
-  console.log(id);
-  try{
-    const rows = await db.getBookImage(id);
-  if(rows && rows.length){
-    res.json(rows);
-  } else {
-    res.status(404).json({ error: 'no data' })
-  }
-  }catch(e){
-    res.status(500).json({ error: e.message })
-  }
-});
-
-app.get('/books/:id/users', async (req, res) => {
-  const id = req.params.id;
-  console.log(id);
-  try{
-    const rows = await db.getUserInfo(id);
-  if(rows && rows.length){
-    res.json(rows);
-  } else {
-    res.status(404).json({ error: 'no data'})
-  }
-  }catch(e){
-    res.status(500).json({ error: e.message})
+  let id = req.params.id;
+  id = parseInt(id);
+    if(isNaN(id)) {
+      res.statusCode(422).json()
+    } else {
+      const rows = await db.getBookImage(id);
+      res.json(rows);
   }
 });
 
@@ -79,7 +56,7 @@ app.get('/books/:id/ratings', async (req, res) => {
   } else {
     res.status(404).json({ error: 'no data'})
   }
-  }catch(e){
+  } catch(e){
     res.status(500).json({ error: e.message})
   }
 });
@@ -94,7 +71,7 @@ app.get('/books/:id/reviews', async (req, res) => {
   } else {
     res.status(404).json({ error: 'no data'})
   }
-  }catch(e){
+  } catch(e){
     res.status(500).json({ error: e.message})
   }
 });
@@ -108,7 +85,7 @@ app.put('/books/:id/users/:userId/readStatus', async (req, res) => {
     await db.insertReadStatus(id, userId, status);
     res.json({ success: true })
 
-  }catch(e){
+  } catch(e){
     res.status(500).json({ error: e.message })
   }
 });
@@ -121,7 +98,7 @@ app.post('/users/:userId/shelf', async (req, res) => {
     await db.insertShelf(shelfName, userId);
     res.json({ success: true })
 
-  }catch(e){
+  } catch(e){
     res.status(500).json({ error: e.message })
   }
 });
@@ -135,7 +112,7 @@ app.post('/books/:id/users/:userId/shelf/:shelfId', async (req, res) => {
     await db.insertBookshelf(id, shelfId);
     res.json({ success: true })
 
-  }catch(e){
+  } catch(e){
     res.status(500).json({ error: e.message })
   }
 });
@@ -143,4 +120,5 @@ app.post('/books/:id/users/:userId/shelf/:shelfId', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
 });
+
 module.exports = app
