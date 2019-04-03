@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.432.0",
+    "axios": "^0.18.0",
     "babel": "^6.23.0",
     "body-parser": "^1.18.3",
     "css-loader": "^2.1.1",
