@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack")
 module.exports = {
   entry:  __dirname + '/src/index.js',
   module: {
@@ -7,7 +8,15 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader']
-      }
+      },
+      {
+        test: /\.css$/,
+        loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+      },
+      {
+        test: /\.(jpg|png|svg|jpeg)$/,
+        loader: 'file-loader'
+      },
     ]
   },
   resolve: {
