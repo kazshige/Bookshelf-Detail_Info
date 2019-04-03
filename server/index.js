@@ -1,15 +1,26 @@
 const express = require('express');
+const path = require('path')
 const db = require('../database/index');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3002;
 
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+app.use(cors());
 
-app.get('/books/:id', async (req, res) => {
+app.use('/books/:id/',express.static(path.join(__dirname, '../client/public')));
+
+
+app.all("/books/:id", async(req, res) => {
+  res.sendFile(path.join(__dirname, '../client/public/index.html'));
+
+})
+
+app.get('/books/:id/info', async (req, res) => {
   const id = req.params.id;
   if(!/^\d+$/.test(id))
     return res.status(422).json();
