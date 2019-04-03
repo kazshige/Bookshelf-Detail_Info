@@ -6,11 +6,18 @@
   "scripts": {
     "seed": "node database/generator.js",
     "start": "node server/index.js",
+    "start-frontend": "webpack-dev-server --config ./client/webpack.config.js --mode development",
     "start:dev": "nodemon server/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "dependencies": {
     "aws-sdk": "^2.432.0",
     "babel": "^6.23.0",
@@ -26,9 +33,15 @@
     "supertest": "^4.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
     "db-seed": "^1.2.0",
     "faker": "^4.1.0",
+    "react-hot-loader": "^4.8.2",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1"
   }
 }
