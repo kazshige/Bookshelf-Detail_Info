@@ -4,7 +4,9 @@ import config from "./config.js";
 
 export default class App extends React.Component{
   componentDidMount(){
-    this.fetchData("books/1/info", "bookInfo")
+    const pathname =   window.location.pathname;
+    const bookId = pathname.split("/").filter((i)=> !!i)[1]
+    this.fetchData(`books/${bookId}/info`, "bookInfo")
   }
 
   fetchData = (url, state) => {
@@ -16,10 +18,15 @@ export default class App extends React.Component{
         })
       })
   }
+  handleClick = () => {
+    window.location.href = `${config.backendUrl}/books/2`
+  }
 
   render(){
     return (
-      <div>This is our APP</div>
+      <div>This is our APP
+      <button onClick={this.handleClick}>Fetch Book 2</button>
+      </div>
     )
   }
 }

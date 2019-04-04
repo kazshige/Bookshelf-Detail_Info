@@ -146,7 +146,7 @@ class DummyDataGenerator {
       data.description = faker.lorem.sentences() + '\n' + faker.lorem.sentences();
 
       const result = await db.insertBookInfo(data);
-      const bookId = result.insertId;
+      const bookId = j + 1;
 
       const images = await this.listAllObjectsFromS3Bucket(s3Config.s3BucketName)
 
