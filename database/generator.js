@@ -109,7 +109,7 @@ class DummyDataGenerator {
           const url = s3.getSignedUrl('getObject', {
             Bucket: bucket,
             Key: item.Key,
-            Expires: 60*60
+            Expires: 60*60 *24 *60
           })
           items.push(url);
         });

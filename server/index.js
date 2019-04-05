@@ -14,10 +14,8 @@ app.use(cors());
 
 app.use('/books/:id/',express.static(path.join(__dirname, '../client/public')));
 
-
 app.all("/books/:id", async(req, res) => {
   res.sendFile(path.join(__dirname, '../client/public/index.html'));
-
 })
 
 app.get('/books/:id/info', async (req, res) => {
@@ -60,7 +58,7 @@ app.get('/books/:id/image', async (req, res) => {
 
   try {
     const rows = await db.getBookImage(id);
-    res.json(rows);
+    res.json(rows[0]);
   } catch(e) {
     res.status(500).json({ error: e.message });
   }
