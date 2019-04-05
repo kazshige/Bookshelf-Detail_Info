@@ -2,6 +2,15 @@ import React from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 import styled from 'styled-components';
 
+export const RatingsLine = styled.div`
+display: flex;
+align-items: center;
+`
+export const Center = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
 class Ratings extends React.Component {
   constructor() {
     super();
