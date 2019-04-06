@@ -34,19 +34,19 @@ export const RightButton = styled.div`
 `
 
 export const ShelfButton = styled.button`
-box-sizing: border-box;
-background-color: transparent;
-background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAICAQAAABaf7ccAAAAKUlEQ…3KsQEAIAzDsJzez8MuoF6tdLo1icQdiBvilrglnw1xS9wHeq2Hge3+H0sAAAAASUVORK5CYII=);
-background-position: center center;
-background-repeat: no-repeat;
-background-size: 8px 4px;
-border: 0;
-cursor: pointer;
-display: block;
-font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: inherit;
-font-style: inherit;
-font-weight: inherit;
-margin: auto;
-text-align: inherit;
+  box-sizing: border-box;
+  background-color: transparent;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAICAQAAABaf7ccAAAAKUlEQ…3KsQEAIAzDsJzez8MuoF6tdLo1icQdiBvilrglnw1xS9wHeq2Hge3+H0sAAAAASUVORK5CYII=);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 8px 4px;
+  border: 0;
+  cursor: pointer;
+  display: block;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  margin: auto;
+  text-align: inherit;
 `

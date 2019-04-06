@@ -25,7 +25,6 @@ describe('Test GET /books/:id', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body.id).toEqual(1);
       done();
-
     })
   });
 

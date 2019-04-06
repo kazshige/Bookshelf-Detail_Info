@@ -1,8 +1,7 @@
 import React from 'react';
-import { Route, Switch} from 'react-router';
+import { Route, Switch } from 'react-router';
 import { BrowserRouter as  Router} from 'react-router-dom';
 import App from './app'
-
 
 export default () => {
   return (
@@ -12,5 +11,5 @@ export default () => {
         <Route path="/books/:id" component={App}/>
       </Switch>
     </Router>
-  )
-}
+  );
+};

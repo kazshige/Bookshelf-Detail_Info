@@ -1,15 +1,13 @@
 import React from "react";
 import axios from "axios";
 import config from "./config.js";
-
 import { Title, Description, Author } from "./components/BookInfo.js";
 import { Image } from './components/BookImage';
 import { Container, LeftGrid, RightGrid } from './components/Container';
-import Ratings, {RatingsLine, Center} from './components/Ratings';
-import RatingsDetails from './components/RatingsDetails';
+import Ratings, { RatingsLine, Center} from './components/Ratings';
+import RatingDetails from './components/RatingDetails';
 import { DropDown, RightButton, ShelfButton } from './components/ReadStatus';
 import { Wrapper, RatingText } from './components/RatingStars'
-
 import DoneIcon from '@material-ui/icons/Done';
 
 const Dot = () => <span style={{margin:'0 5px'}}>·</span>
@@ -19,11 +17,11 @@ export default class App extends React.Component{
     bookInfo: null
   }
   componentDidMount(){
-
     const bookId = this.props.match.params.id
     this.fetchData(`books/${bookId}/info`, "bookInfo")
     this.fetchData(`books/${bookId}/image`, "bookImage")
     this.fetchData(`books/${bookId}/ratings`, "ratings")
+    this.fetchData(`books/${bookId}/reviews`, "reviews")
   }
 
   fetchData = (url, state) => {
@@ -35,12 +33,13 @@ export default class App extends React.Component{
         })
       })
   }
+
   handleClick = () => {
     window.location.href = `${config.backendUrl}/books/2`
   }
 
   render(){
-    const { bookInfo, bookImage, ratings } = this.state;
+    const { bookInfo, bookImage, ratings, reviews } = this.state;
     return (
       <Container>
         <LeftGrid>
@@ -66,17 +65,17 @@ export default class App extends React.Component{
           </Author>
           <RatingsLine>
             <Ratings/>
-            <RatingsDetails ratings={ratings} />
-            { ratings && <span>{ratings.length} ratings</span> }
+            <RatingDetails ratings={ratings} />
             <Dot />
-            { ratings && <span>{ratings.length} reviews</span> }
+            { ratings && <span style={{color: '#00635D'}}>{ratings.length} ratings</span> }
             <Dot />
+            { reviews && <span style={{color: '#00635D'}}>{reviews.length} reviews</span> }
           </RatingsLine>
           <Description>
           { bookInfo && bookInfo.description }
           </Description>
         </RightGrid>
       </Container>
-    )
+    );
   }
-}
+};

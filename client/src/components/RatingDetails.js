@@ -1,12 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components';
-
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft'
 
-const RatingsDetailsContainer = styled.div`
+const RatingDetailsContainer = styled.div`
   position: relative;
 `
-const RatingsPopup = styled.div`
+const RatingPopup = styled.div`
   display: ${props => props.isOpen ? 'block' : 'none' };
   position: absolute;
   top: 0;
@@ -37,8 +36,8 @@ const BarContainer = styled.div`
   `
 
 const BarLine = styled.div`
-border: 1px solid #222;
-min-height: 20px;
+  border: 1px solid #222;
+  min-height: 20px;
 `
 const BarFill = styled.div`
   background: green;
@@ -64,9 +63,9 @@ class Bar extends Component {
       </BarContainer>
     )
   }
-}
+};
 
-class RatingsDetails extends Component {
+class RatingDetails extends Component {
   state = {
     isOpen: false
   }
@@ -91,11 +90,11 @@ class RatingsDetails extends Component {
     console.log('largestVotingNumber', largestVotingNumber);
 
     return (
-      <RatingsDetailsContainer>
+      <RatingDetailsContainer>
         <OpenButton onClick={this.toggle}><FormatAlignLeft /></OpenButton>
-        <RatingsPopup isOpen={isOpen}>
+        <RatingPopup isOpen={isOpen}>
           <CloseButton onClick={this.toggle}>X</CloseButton>
-          <span>Ratings Details</span>
+          <span>Rating Details</span>
 
           <div>{JSON.stringify(ratingSummary)}</div>
 
@@ -107,11 +106,10 @@ class RatingsDetails extends Component {
             }</div>
           }
 
-
-        </RatingsPopup>
-      </RatingsDetailsContainer>
+        </RatingPopup>
+      </RatingDetailsContainer>
     )
   }
-}
+};
 
-export default RatingsDetails;
+export default RatingDetails;

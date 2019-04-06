@@ -3,8 +3,8 @@ import StarRatingComponent from 'react-star-rating-component';
 import styled from 'styled-components';
 
 export const RatingsLine = styled.div`
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 `
 export const Center = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ class Ratings extends React.Component {
 
     this.state = {
       rating: 1
-    };
+    }
   }
 
   onStarClick(nextValue, prevValue, name) {
@@ -38,7 +38,7 @@ class Ratings extends React.Component {
       </div>
     );
   }
-}
+};
 
 export default Ratings;
 
