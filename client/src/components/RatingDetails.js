@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft'
+import StarRatingComponent from 'react-star-rating-component';
 
 const RatingDetailsContainer = styled.div`
   position: relative;
@@ -10,11 +11,15 @@ const RatingPopup = styled.div`
   position: absolute;
   top: 0;
   left:0;
-  min-width: 200px;
+  min-width: 600px;
   min-height: 100px;
-  border: 5px solid orange;
+  border: 5px solid rgb(215, 210, 196);
   border-radius: 5px;
   background: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  color: #382110;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 `
 
 const OpenButton = styled.div`
@@ -24,27 +29,41 @@ const OpenButton = styled.div`
 `
 
 const CloseButton = styled.div`
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  border: none;
+  position: relative;
+  float: right;
+  width: 19px;
+  height: 15px;
+  display: block;
+  line-height: 0;
+  border: 0;
   cursor: pointer;
+  color: #382110;
+  font-weight: bold;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 `
 
 const BarContainer = styled.div`
   margin: 10px;
+  display: flex;
   `
 
 const BarLine = styled.div`
-  border: 1px solid #222;
   min-height: 20px;
+  width: 350px;
+  margin-left: 10px
 `
 const BarFill = styled.div`
-  background: green;
+  background-color: #215625;
   width: ${props => props.percent}%;
-  height: 20px;
+  height: 18px;
 `
-
+const SimpleText = styled.div`
+  line-height: 24px
+  font-size: 12px;
+  color: #382110;
+  text-align: left;
+  font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif;
+`
 class Bar extends Component {
   render(){
     const { rating, votes, largestVotingNumber } = this.props;
@@ -52,14 +71,13 @@ class Bar extends Component {
     const percent = votes / largestVotingNumber * 100;
     return (
       <BarContainer>
-       { rating}
-       -
-       { votes}
-       -
-       { percent }%
+       <SimpleText><span>{ rating }</span></SimpleText>
+       <StarRatingComponent starCount={1} value={1}/>
        <BarLine>
         <BarFill percent={percent} />
        </BarLine>
+       <SimpleText><span>{ Math.floor(percent) }% </span></SimpleText>
+        <SimpleText><span>({ votes })</span></SimpleText>
       </BarContainer>
     )
   }
@@ -81,6 +99,20 @@ class RatingDetails extends Component {
       upd[v.rating] = acc[v.rating]+1;
       return {...acc, ...upd}
     }, {1:0, 2:0, 3:0, 4:0, 5:0});
+    let total = 0;
+    let liked = 0
+    let totalLiked = 0
+
+    if(ratingSummary){
+       Object.keys(ratingSummary).forEach((val)=>{
+      if (val >= 3){
+        liked += ratingSummary[val];
+      }
+      total += ratingSummary[val];
+      })
+      totalLiked = (liked/total) * 100
+      console.log(totalLiked)
+    }
 
     const largestVotingNumber = !ratings ? null : Object.keys(ratingSummary).reduce((acc,v)=>{
       if(ratingSummary[v] > acc) return ratingSummary[v];
@@ -93,11 +125,8 @@ class RatingDetails extends Component {
       <RatingDetailsContainer>
         <OpenButton onClick={this.toggle}><FormatAlignLeft /></OpenButton>
         <RatingPopup isOpen={isOpen}>
-          <CloseButton onClick={this.toggle}>X</CloseButton>
+          <CloseButton onClick={this.toggle}>x</CloseButton>
           <span>Rating Details</span>
-
-          <div>{JSON.stringify(ratingSummary)}</div>
-
           {
             !!ratings && <div>{
             Object.keys(ratingSummary).map( rating => {
@@ -105,7 +134,6 @@ class RatingDetails extends Component {
             })
             }</div>
           }
-
         </RatingPopup>
       </RatingDetailsContainer>
     )
