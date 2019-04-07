@@ -2,8 +2,9 @@ import styled from 'styled-components';
 
 export const DropDown = styled.div`
   border-width: 1px;
-  padding: 6px 0 7px 8px;
-  width: 105px;
+  padding: 0 0 1px 5px;
+  width: 120px;
+  box-sizing: border-box;
   font-size: 13px;
   font-weight: bold;
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -31,6 +32,11 @@ export const RightButton = styled.div`
   border-left: 1px solid #38883d;
   margin-right: -10px;
   padding: 0;
+  position: relative;
+
+  &.show-menu div, :hover div {
+    display: block;
+  }
 `
 
 export const ShelfButton = styled.button`
@@ -49,4 +55,47 @@ export const ShelfButton = styled.button`
   font-weight: inherit;
   margin: auto;
   text-align: inherit;
+`
+export const Options = styled.div`
+  display: none;
+  width: 180px;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  border: 1px solid #999;
+  background: white;
+  border-radius: 3px;
+  color: #444;
+  z-index: 10;
+  font-family: 'Lato';
+`
+export const Option = styled.div`
+  cursor: pointer;
+  padding: 5px 10px;
+
+  :hover {
+    background: #EEE;
+  }
+`
+export const AddShelf = styled.div`
+  cursor: pointer;
+  padding: 5px 10px;
+  border-top: 1px solid #999;
+
+  div {
+    margin-bottom: 5px;
+  }
+
+  input {
+    width: 59%;
+    margin-right: 1%;
+  }
+
+  button {
+    width: 36%;
+  }
+
+  :hover {
+    background: #EEE;
+  }
 `

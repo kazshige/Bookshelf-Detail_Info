@@ -5,7 +5,6 @@ export const Wrapper = styled.div`
   margin-left: auto;
   margin-right: auto;
   display: flex;
-  width: 140px;
 `
 
 export const RatingText = styled.div`
