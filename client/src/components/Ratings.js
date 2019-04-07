@@ -12,7 +12,23 @@ export const Center = styled.div`
   justify-content: center;
 `
 
-const Grey = styled.div`
+export const RatingText = styled.div`
+  background: transparent;
+  border: 0;
+  box-sizing: content-box;
+  display: block;
+  font-size: 11px;
+  height: 16px;
+  line-height: 14px;
+  margin: 0 auto;
+  padding: 3px 6px 0 6px;
+  width: 100px;
+  color: #999999;
+  font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif;
+  text-align: center;
+`
+
+const EditableRatingColor = styled.div`
   label {
     color: #999;
   }
@@ -35,14 +51,14 @@ class Ratings extends React.Component {
     const { rating } = this.state;
 
     return (
-      <Grey>
+      <EditableRatingColor>
         <StarRatingComponent
           name="rate1"
           starCount={5}
           value={rating}
           onStarClick={this.onStarClick.bind(this)}
         />
-      </Grey>
+      </EditableRatingColor>
     );
   }
 };

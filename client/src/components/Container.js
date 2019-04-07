@@ -14,3 +14,10 @@ export const RightGrid = styled.div`
   max-width: 455px;
   box-sizing: border-box;
 `
+
+export const Wrapper = styled.div`
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+`

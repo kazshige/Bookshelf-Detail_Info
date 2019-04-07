@@ -26,3 +26,10 @@ export const Description = styled.div`
   font-family: "Merriweather", "Georgia", serif;
   text-align: left;
 `
+
+export const Image = styled.img`
+  height: 230px;
+  width: 150px;
+  display: block;
+  margin: 0 auto 10px;
+`

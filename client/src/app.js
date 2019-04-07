@@ -1,13 +1,11 @@
 import React from "react";
 import axios from "axios";
 import config from "./config.js";
-import { Title, Description, Author } from "./components/BookInfo.js";
-import { Image } from './components/BookImage';
-import { Container, LeftGrid, RightGrid } from './components/Container';
-import Ratings, { RatingsLine, Center} from './components/Ratings';
+import { Title, Description, Author, Image } from "./components/BookInfo.js";
+import { Container, LeftGrid, RightGrid, Wrapper } from './components/Container';
+import Ratings, { RatingsLine, Center, RatingText} from './components/Ratings';
 import RatingDetails from './components/RatingDetails';
 import { DropDown, RightButton, Options, Option, AddShelf } from './components/ReadStatus';
-import { Wrapper, RatingText } from './components/RatingStars'
 import DoneIcon from '@material-ui/icons/Done';
 
 const Dot = () => <span style={{margin:'0 5px'}}>·</span>
