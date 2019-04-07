@@ -125,7 +125,7 @@ class RatingDetails extends Component {
       total += ratingSummary[val];
       })
       totalLiked = (liked/total) * 100
-      console.log(totalLiked)
+  
     }
 
     const largestVotingNumber = !ratings ? null : Object.keys(ratingSummary).reduce((acc,v)=>{

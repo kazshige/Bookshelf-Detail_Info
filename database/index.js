@@ -61,8 +61,17 @@ const insertReviews = function({bookId, review}) {
   return query('INSERT INTO reviews (bookInfo_id, review) VALUES(?, ?)', [bookId, review]);
 };
 
-const insertReadStatus = function(bookId, userId, status) {
+const updateReadStatus = function(bookId, userId, status) {
   return query(`UPDATE readStatus SET status = ${status} WHERE user_id = ${userId} AND bookInfo_id = ${bookId}`);
+};
+
+const insertReadStatus = function(bookId, userId, status) {
+  return query(`INSERT INTO readStatus (status, user_id, bookInfo_id) VALUES(?,?,?)`, [status, userId, bookId]);
+};
+
+
+const getReadStatus = function(bookId, userId) {
+  return query(`SELECT * FROM readStatus WHERE user_id = ${userId} AND bookInfo_id = ${bookId}`);
 };
 
 const insertShelf = function(name, user_id) {
@@ -87,6 +96,8 @@ module.exports = {
   insertReviews,
   insertShelf,
   insertBookshelf,
+  updateReadStatus,
+  getReadStatus,
   insertReadStatus,
   queryAsync: query,
   close: () => connection.end()

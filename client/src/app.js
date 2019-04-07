@@ -9,19 +9,17 @@ import { DropDown, RightButton, Options, Option, AddShelf } from './components/R
 import DoneIcon from '@material-ui/icons/Done';
 import StarRatingComponent from 'react-star-rating-component';
 
+
 const Dot = () => <span style={{margin:'0 5px'}}>·</span>
 
 export default class App extends React.Component{
   state = {
     bookInfo: null,
     options: [{
-      selected: false,
       text: 'Want to Read'
     }, {
-      selected: true,
       text: 'Read'
     }, {
-      selected: false,
       text: 'Currently Reading'
     }],
     rating: 0
@@ -33,7 +31,7 @@ export default class App extends React.Component{
     this.fetchData(`books/${bookId}/users`, "users")
     this.fetchData(`books/${bookId}/ratings`, "ratings")
     this.fetchData(`books/${bookId}/reviews`, "reviews")
-    this.fetchData(`books/${bookId}/readstatus`, "readstatus")
+    this.fetchData(`books/${bookId}/users/1/readStatus`, "readStatus")
   }
 
   fetchData = (url, state) => {
@@ -50,15 +48,19 @@ export default class App extends React.Component{
     window.location.href = `${config.backendUrl}/books/2`
   }
 
-  toggleOption = (optionText) => {
+  toggleOption = (optionText, index) => {
     const statusArr = [];
 
-    this.state.options.forEach(option => {
-      option.selected = option.text === optionText;
-      statusArr.push(option);
-    });
-
-    this.setState({ options: statusArr });
+    const bookId = this.props.match.params.id
+    axios.put(`${config.backendUrl}/books/${bookId}/users/1/readStatus`, { status: index})
+    .then(({ data })=> {
+      this.setState({
+        readStatus: data
+      })
+    })
+    this.setState({readStatus: {data: {
+      status: index
+    }}})
   }
 
   addShelf = () => {
@@ -103,9 +105,9 @@ export default class App extends React.Component{
   }
 
   render(){
-    const { bookInfo, bookImage, rating, ratings, reviews, statusOpened, options, users } = this.state;
+    const { bookInfo, bookImage, rating, ratings, reviews, statusOpened, options, users, readStatus } = this.state;
 
-    const selectedOption = options.find(option => option.selected);
+    const selectedOption = options.find((option, index) => (readStatus && readStatus.data? readStatus.data.status === index: index === 0));
 
     const averageRating = this.getAverageRating(ratings);
     const likedBy = this.likedBy(ratings);
@@ -121,8 +123,8 @@ export default class App extends React.Component{
               </DropDown>
               <RightButton onClick={this.toggleMenu} className={statusOpened ? 'show-menu' : ''}>
                 <Options>
-                  {options.filter(option => !option.selected).map(option => (
-                    <Option onClick={this.toggleOption.bind(this, option.text)}>
+                  {options.map((option, index) => (
+                    <Option onClick={() => this.toggleOption( option.text, index)}>
                       {option.text}
                     </Option>
                   ))}
