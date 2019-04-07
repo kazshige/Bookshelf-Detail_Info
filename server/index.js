@@ -51,7 +51,7 @@ app.get('/books/:id/users', async (req, res) => {
 });
 
 app.get('/books/:id/image', async (req, res) => {
-  let id = req.params.id;
+  let id = parseInt(req.params.id);
   if(!/^\d+$/.test(id)) {
     return res.status(404).json();
   }
@@ -99,9 +99,6 @@ app.put('/books/:id/users/:userId/readStatus', async (req, res) => {
   const id = parseInt(req.params.id, 10);
   const userId = parseInt(req.params.userId, 10);
   const { status } = req.body;
-
-  console.log("===values", id, userId, status)
-
   if(!/^\d+$/.test(id) || !/^\d+$/.test(userId)) {
     return res.status(404).json();
   }

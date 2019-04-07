@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft'
 import StarRatingComponent from 'react-star-rating-component';
 
-const RatingDetailsContainer = styled.div`
+export const RatingDetailsContainer = styled.div`
   display: inline-block;
 `
-const RatingPopup = styled.div`
+export const RatingPopup = styled.div`
   display: ${props => props.isOpen ? 'block' : 'none' };
   position: absolute;
   top: 30px;
@@ -20,7 +20,7 @@ const RatingPopup = styled.div`
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 `
 
-const OpenButton = styled.div`
+export const OpenButton = styled.div`
   border: none;
   cursor: pointer;
   margin: 0 10px;
@@ -32,7 +32,7 @@ const OpenButton = styled.div`
   }
 `
 
-const CloseButton = styled.div`
+export const CloseButton = styled.div`
   position: relative;
   float: right;
   width: 19px;
@@ -46,30 +46,30 @@ const CloseButton = styled.div`
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 `
 
-const BarContainer = styled.div`
+export const BarContainer = styled.div`
   position: relative;
   margin: 3px;
   display: flex;
   align-items: center;
   `
 
-const BarLine = styled.div`
+export const BarLine = styled.div`
   width: 350px;
   margin: 0 10px;
 `
-const BarFill = styled.div`
+export const BarFill = styled.div`
   background-color: #215625;
   width: ${props => props.percent}%;
   height: 18px;
   border-radius: 2px;
 `
-const FlexColumnReverse = styled.div`
+export const FlexColumnReverse = styled.div`
   display: flex;
   flex-direction: column-reverse;
   margin-top: 10px;
 `
 
-const SimpleText = styled.div`
+export const SimpleText = styled.div`
   line-height: 24px
   font-size: 12px;
   color: #382110;
@@ -77,14 +77,14 @@ const SimpleText = styled.div`
   text-align: left;
   font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif;
 `
-class Bar extends Component {
+export class Bar extends Component {
   render(){
     const { ratings, rating, votes, largestVotingNumber, amountOfRatings } = this.props;
 
     const percent = votes / amountOfRatings * 100;
     const width = votes / largestVotingNumber * 100;
     return (
-      <BarContainer>
+      <BarContainer className="main">
        <SimpleText><span>{ rating }</span></SimpleText>
        <StarRatingComponent starCount={1} value={1}/>
        <BarLine>
@@ -125,7 +125,7 @@ class RatingDetails extends Component {
       total += ratingSummary[val];
       })
       totalLiked = (liked/total) * 100
-  
+
     }
 
     const largestVotingNumber = !ratings ? null : Object.keys(ratingSummary).reduce((acc,v)=>{
@@ -147,7 +147,7 @@ class RatingDetails extends Component {
             }</FlexColumnReverse>
           }
           <div>
-            <strong>{likedBy}%</strong> of people liked it
+            <strong>{parseInt(likedBy)}%</strong> of people liked it
           </div>
           <div>
             <strong>This edition:</strong> {rating} average rating,&nbsp;

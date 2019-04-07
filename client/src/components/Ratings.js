@@ -36,12 +36,12 @@ export const RatingContainer = styled.div`
   align-items: center;
 `
 
-const EditableRatingColor = styled.div`
+export const EditableRatingColor = styled.div`
   label {
     color: #999;
   }
 `
-const RatingAverage = styled.span`
+export const RatingAverage = styled.span`
   display: inline-block;
   float: right;
   margin: 3px 0 0 5px;
