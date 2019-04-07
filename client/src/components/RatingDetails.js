@@ -4,12 +4,11 @@ import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft'
 import StarRatingComponent from 'react-star-rating-component';
 
 const RatingDetailsContainer = styled.div`
-  position: relative;
 `
 const RatingPopup = styled.div`
   display: ${props => props.isOpen ? 'block' : 'none' };
   position: absolute;
-  top: 0;
+  top: 30px;
   left:0;
   min-width: 600px;
   min-height: 100px;
@@ -43,7 +42,8 @@ const CloseButton = styled.div`
 `
 
 const BarContainer = styled.div`
-  margin: 10px;
+  position: relative;
+  margin: 3px;
   display: flex;
   `
 
@@ -57,6 +57,11 @@ const BarFill = styled.div`
   width: ${props => props.percent}%;
   height: 18px;
 `
+const FlexColumnReverse = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
+`
+
 const SimpleText = styled.div`
   line-height: 24px
   font-size: 12px;
@@ -128,11 +133,11 @@ class RatingDetails extends Component {
           <CloseButton onClick={this.toggle}>x</CloseButton>
           <span>Rating Details</span>
           {
-            !!ratings && <div>{
+            !!ratings && <FlexColumnReverse>{
             Object.keys(ratingSummary).map( rating => {
               return <Bar rating={rating} votes={ratingSummary[rating]} largestVotingNumber={largestVotingNumber} />
             })
-            }</div>
+            }</FlexColumnReverse>
           }
         </RatingPopup>
       </RatingDetailsContainer>
