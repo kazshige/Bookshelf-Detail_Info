@@ -3,10 +3,11 @@ import axios from "axios";
 import config from "./config.js";
 import { Title, Description, Author, Image } from "./components/BookInfo.js";
 import { Container, LeftGrid, RightGrid, Wrapper } from './components/Container';
-import Ratings, { RatingsLine, Center, RatingText} from './components/Ratings';
+import Ratings, { RatingsLine, Center, RatingText, RatingContainer } from './components/Ratings';
 import RatingDetails from './components/RatingDetails';
 import { DropDown, RightButton, Options, Option, AddShelf } from './components/ReadStatus';
 import DoneIcon from '@material-ui/icons/Done';
+import StarRatingComponent from 'react-star-rating-component';
 
 const Dot = () => <span style={{margin:'0 5px'}}>·</span>
 
@@ -15,19 +16,21 @@ export default class App extends React.Component{
     bookInfo: null,
     options: [{
       selected: false,
-      text: 'Want to Ready'
+      text: 'Want to Read'
     }, {
       selected: true,
       text: 'Read'
     }, {
       selected: false,
       text: 'Currently Reading'
-    }]
+    }],
+    rating: 0
   }
   componentDidMount(){
     const bookId = this.props.match.params.id
     this.fetchData(`books/${bookId}/info`, "bookInfo")
     this.fetchData(`books/${bookId}/image`, "bookImage")
+    this.fetchData(`books/${bookId}/users`, "users")
     this.fetchData(`books/${bookId}/ratings`, "ratings")
     this.fetchData(`books/${bookId}/reviews`, "reviews")
     this.fetchData(`books/${bookId}/readstatus`, "readstatus")
@@ -77,10 +80,35 @@ export default class App extends React.Component{
     });
   }
 
+  getAverageRating = (ratings) => {
+    return (ratings && ratings.reduce(
+      (sum, currentRating) => sum + currentRating.rating
+    , 0) / ratings.length) || 5;
+  }
+
+  likedBy = (ratings) => {
+    return (ratings && ratings.reduce(
+      (sum, currentRating) => sum + (currentRating.rating >= 3 ? 1 : 0)
+    , 0) / ratings.length * 100) || 0;
+  }
+
+  shortText = (text, len) => {
+    return text.length <= len
+      ? text
+      : text.substr(0, len - 2) + '...';
+  }
+
+  onStarClick = (nextValue, prevValue, name) => {
+    this.setState({rating: nextValue});
+  }
+
   render(){
-    const { bookInfo, bookImage, ratings, reviews, statusOpened, options } = this.state;
+    const { bookInfo, bookImage, rating, ratings, reviews, statusOpened, options, users } = this.state;
 
     const selectedOption = options.find(option => option.selected);
+
+    const averageRating = this.getAverageRating(ratings);
+    const likedBy = this.likedBy(ratings);
 
     return (
       <Container>
@@ -89,7 +117,7 @@ export default class App extends React.Component{
           <Wrapper>
             <DropDown>
               <div style={{color:'#63ce92'}}><DoneIcon/></div>
-              <span title="Read">{selectedOption.text}</span>
+              <span title="Read">{this.shortText(selectedOption.text, 12)}</span>
               </DropDown>
               <RightButton onClick={this.toggleMenu} className={statusOpened ? 'show-menu' : ''}>
                 <Options>
@@ -107,7 +135,13 @@ export default class App extends React.Component{
               </RightButton>
           </Wrapper>
           <RatingText>Rate this book</RatingText>
-          <Center><Ratings/></Center>
+          <Center>
+            <StarRatingComponent
+              starCount={5}
+              value={Math.round(rating)}
+              onStarClick={this.onStarClick}
+            />
+          </Center>
         </LeftGrid>
         <RightGrid>
           <Title>
@@ -117,13 +151,13 @@ export default class App extends React.Component{
           { bookInfo && bookInfo.author }
           </Author>
           <RatingsLine>
-            <Ratings/>
+            <Ratings rating={averageRating}/>
             <Dot />
-            <RatingDetails ratings={ratings} />
+            <RatingContainer><RatingDetails ratings={ratings || []} likedBy={likedBy} rating={averageRating} reviews={reviews || []} users={users || []} /> rating details </RatingContainer>
             <Dot />
-            { ratings && <span style={{color: '#00635D'}}>{ratings.length} ratings</span> }
+            { ratings && <span>{ratings.length} ratings</span> }
             <Dot />
-            { reviews && <span style={{color: '#00635D'}}>{reviews.length} reviews</span> }
+            { reviews && <span>{reviews.length} reviews</span> }
           </RatingsLine>
           <Description>
           { bookInfo && bookInfo.description }

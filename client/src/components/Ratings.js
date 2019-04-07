@@ -6,6 +6,9 @@ export const RatingsLine = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  font-size: 12px;
+  font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif;
+  color: #00635D;
 `
 export const Center = styled.div`
   display: flex;
@@ -28,36 +31,39 @@ export const RatingText = styled.div`
   text-align: center;
 `
 
+export const RatingContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const EditableRatingColor = styled.div`
   label {
     color: #999;
   }
 `
+const RatingAverage = styled.span`
+  display: inline-block;
+  float: right;
+  margin: 3px 0 0 5px;
+`
 
 class Ratings extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      rating: 1
-    }
-  }
-
-  onStarClick(nextValue, prevValue, name) {
+  /*onStarClick(nextValue, prevValue, name) {
     this.setState({rating: nextValue});
-  }
+  }*/
 
   render() {
-    const { rating } = this.state;
+    const rating = this.props.rating || 5;
 
     return (
       <EditableRatingColor>
         <StarRatingComponent
-          name="rate1"
           starCount={5}
-          value={rating}
-          onStarClick={this.onStarClick.bind(this)}
+          value={Math.round(rating)}
         />
+      <RatingAverage>
+        {rating.toFixed(2)}
+      </RatingAverage>
       </EditableRatingColor>
     );
   }
@@ -69,6 +75,5 @@ export const StyledRatings = styled(Ratings)`
   color: #aaa;
   overflow: hidden;
   width: 75px;
-  margin-left: auto;
-  margin-right: auto;
+
 `

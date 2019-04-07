@@ -34,6 +34,17 @@ export const RightButton = styled.div`
   padding: 0;
   position: relative;
 
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    border-top: 5px solid white;
+    top: 12px;
+    left 8px;
+  }
+
   &.show-menu div, :hover div {
     display: block;
   }
