@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(cors());
 
-app.use('/books/:id/',express.static(path.join(__dirname, '../client/public')));
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 app.all("/books/:id", async(req, res) => {
   res.sendFile(path.join(__dirname, '../client/public/index.html'));

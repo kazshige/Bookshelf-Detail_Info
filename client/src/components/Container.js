@@ -21,3 +21,6 @@ export const Wrapper = styled.div`
   margin-right: auto;
   display: flex;
 `
+export const RatingDetailText = styled.span`
+  cursor: pointer
+`

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import config from "./config.js";
 import { Title, Description, Author, Image } from "./components/BookInfo.js";
-import { Container, LeftGrid, RightGrid, Wrapper } from './components/Container';
+import { Container, LeftGrid, RightGrid, Wrapper, RatingDetailText } from './components/Container';
 import Ratings, { RatingsLine, Center, RatingText, RatingContainer } from './components/Ratings';
 import RatingDetails from './components/RatingDetails';
 import { DropDown, RightButton, Options, Option, AddShelf } from './components/ReadStatus';
@@ -14,6 +14,7 @@ const Dot = () => <span style={{margin:'0 5px'}}>·</span>
 
 export default class App extends React.Component{
   state = {
+    isOpen: false,
     bookInfo: null,
     options: [{
       text: 'Want to Read'
@@ -103,9 +104,10 @@ export default class App extends React.Component{
   onStarClick = (nextValue, prevValue, name) => {
     this.setState({rating: nextValue});
   }
+  toggle = () => this.setState( s => ({ isOpen: !s.isOpen }))
 
   render(){
-    const { bookInfo, bookImage, rating, ratings, reviews, statusOpened, options, users, readStatus } = this.state;
+    const { bookInfo, bookImage, rating, ratings, reviews, statusOpened, options, users, readStatus, isOpen } = this.state;
 
     const selectedOption = options.find((option, index) => (readStatus && readStatus.data? readStatus.data.status === index: index === 0));
 
@@ -119,22 +121,22 @@ export default class App extends React.Component{
           <Wrapper>
             <DropDown>
               <div style={{color:'#63ce92'}}><DoneIcon/></div>
-              <span title="Read">{this.shortText(selectedOption.text, 12)}</span>
-              </DropDown>
-              <RightButton onClick={this.toggleMenu} className={statusOpened ? 'show-menu' : ''}>
-                <Options>
-                  {options.map((option, index) => (
-                    <Option onClick={() => this.toggleOption( option.text, index)}>
-                      {option.text}
-                    </Option>
-                  ))}
-                  <AddShelf>
-                    <div>Add shelf</div>
-                    <input type="text" onChange={this.updateShelfInput} />
-                    <button onClick={this.addShelf}>Add</button>
-                  </AddShelf>
-                </Options>
-              </RightButton>
+              <span title="Want to Read">{this.shortText(selectedOption.text, 12)}</span>
+            </DropDown>
+            <RightButton onClick={this.toggleMenu} className={statusOpened ? 'show-menu' : ''}>
+              <Options>
+                {options.map((option, index) => (
+                  <Option onClick={() => this.toggleOption( option.text, index)}>
+                    {option.text}
+                  </Option>
+                ))}
+                <AddShelf>
+                  <div>Add shelf</div>
+                  <input type="text" onChange={this.updateShelfInput} />
+                  <button onClick={this.addShelf}>Add</button>
+                </AddShelf>
+              </Options>
+            </RightButton>
           </Wrapper>
           <RatingText>Rate this book</RatingText>
           <Center>
@@ -149,13 +151,12 @@ export default class App extends React.Component{
           <Title>
           { bookInfo && bookInfo.title  }
           </Title>
-          <Author> by
-          { bookInfo && bookInfo.author }
+          <Author> {`by ${ bookInfo && bookInfo.author }`}
           </Author>
           <RatingsLine>
             <Ratings rating={averageRating}/>
             <Dot />
-            <RatingContainer><RatingDetails ratings={ratings || []} likedBy={likedBy} rating={averageRating} reviews={reviews || []} users={users || []} /> rating details </RatingContainer>
+            <RatingContainer><RatingDetails  isOpen={isOpen} toggle={this.toggle} ratings={ratings || []} likedBy={likedBy} rating={averageRating} reviews={reviews || []} users={users || []} /> <RatingDetailText onClick={this.toggle}>rating details</RatingDetailText> </RatingContainer>
             <Dot />
             { ratings && <span>{ratings.length} ratings</span> }
             <Dot />
