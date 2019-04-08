@@ -109,7 +109,7 @@ class DummyDataGenerator {
           const url = s3.getSignedUrl('getObject', {
             Bucket: bucket,
             Key: item.Key,
-            Expires: 60*60
+            Expires: 60*60 *24 *60
           })
           items.push(url);
         });
@@ -146,7 +146,7 @@ class DummyDataGenerator {
       data.description = faker.lorem.sentences() + '\n' + faker.lorem.sentences();
 
       const result = await db.insertBookInfo(data);
-      const bookId = result.insertId;
+      const bookId = j + 1;
 
       const images = await this.listAllObjectsFromS3Bucket(s3Config.s3BucketName)
 

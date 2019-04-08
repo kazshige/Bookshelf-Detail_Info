@@ -1,15 +1,24 @@
 const express = require('express');
+const path = require('path')
 const db = require('../database/index');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3002;
 
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+app.use(cors());
 
-app.get('/books/:id', async (req, res) => {
+app.use('/books/:id/',express.static(path.join(__dirname, '../client/public')));
+
+app.all("/books/:id", async(req, res) => {
+  res.sendFile(path.join(__dirname, '../client/public/index.html'));
+})
+
+app.get('/books/:id/info', async (req, res) => {
   const id = req.params.id;
   if(!/^\d+$/.test(id))
     return res.status(422).json();
@@ -42,14 +51,14 @@ app.get('/books/:id/users', async (req, res) => {
 });
 
 app.get('/books/:id/image', async (req, res) => {
-  let id = req.params.id;
+  let id = parseInt(req.params.id);
   if(!/^\d+$/.test(id)) {
     return res.status(404).json();
   }
 
   try {
     const rows = await db.getBookImage(id);
-    res.json(rows);
+    res.json(rows[0]);
   } catch(e) {
     res.status(500).json({ error: e.message });
   }
@@ -86,23 +95,47 @@ app.get('/books/:id/reviews', async (req, res) => {
   }
 });
 
-app.put('/books/:id/users/:userId/readstatus', async (req, res) => {
-  const id = req.params.id;
-  const userId = req.params.userId;
+app.put('/books/:id/users/:userId/readStatus', async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const userId = parseInt(req.params.userId, 10);
   const { status } = req.body;
-
   if(!/^\d+$/.test(id) || !/^\d+$/.test(userId)) {
     return res.status(404).json();
   }
 
   try{
-    await db.insertReadStatus(id, userId, status);
-    res.json({ success: true })
+    const rows = await db.getReadStatus(id, userId)
+    if(rows[0]){
+      await db.updateReadStatus(id, userId, status);
+    }else {
+      await db.insertReadStatus(id, userId, status)
+    }
 
+    const data = await db.getReadStatus(id, userId)
+    return res.json({
+      data: data[0]
+    })
   } catch(e){
     res.status(500).json({ error: e.message })
   }
 });
+
+app.get('/books/:id/users/:userId/readStatus',  async(req, res)=> {
+  const id = req.params.id;
+  const userId = req.params.userId;
+
+  if(!/^\d+$/.test(id) || !/^\d+$/.test(userId)) {
+    return res.status(404).json();
+  }
+  try {
+    const rows = await db.getReadStatus(id, userId)
+    return res.json({
+      data: rows[0] || ""
+    })
+  }catch(e){
+    res.status(500).json({ error: e.message })
+  }
+})
 
 // Adding a shelf
 app.post('/users/:userId/shelf', async (req, res) => {
