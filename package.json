@@ -7,7 +7,7 @@
     "seed": "node database/generator.js",
     "start": "node server/index.js",
     "build": "webpack --config ./client/webpack.config.js -p",
-    "start-frontend": "webpack-dev-server --config ./client/webpack.config.js --mode development",
+    "start-frontend": "webpack --config ./client/webpack.config.js --dev --watch",
     "start:dev": "nodemon server/index.js"
   },
   "keywords": [],

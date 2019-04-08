@@ -102,11 +102,12 @@ class RatingDetails extends Component {
     isOpen: false
   }
 
-  toggle = () => this.setState( s => ({ isOpen: !s.isOpen }))
+  toggle = () =>{
+    this.props.toggle()
+  }
 
   render(){
-    const { isOpen } = this.state;
-    const { ratings, rating, likedBy, reviews, users } = this.props;
+    const { ratings, rating, likedBy, reviews, users, isOpen } = this.props;
 
     const ratingSummary = !ratings ? null : ratings.reduce((acc, v)=>{
       const upd = {};
@@ -153,7 +154,7 @@ class RatingDetails extends Component {
             <strong>This edition:</strong> {rating} average rating,&nbsp;
             {ratings.length} ratings,&nbsp;
             {reviews.length} reviews,&nbsp;
-            {users.length} users
+            added by {users.length} people
           </div>
         </RatingPopup>
       </RatingDetailsContainer>
