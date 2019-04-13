@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack")
 module.exports = {
-  entry:  __dirname + '/src/index.js',
+  entry:  path.join(__dirname, 'client', 'src', 'index.js'),
   module: {
     rules: [
       {
@@ -26,15 +26,15 @@ module.exports = {
     extensions: ['*', '.js', '.jsx']
   },
   output: {
-    path: path.resolve(__dirname,'public'),
+    path: path.resolve(__dirname, 'client', 'public'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'bundle-main.js'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
-    contentBase: path.join(__dirname,'public'),
+    contentBase: path.join(__dirname, 'client', 'public'),
     historyApiFallback: true,
     hot: true
   }

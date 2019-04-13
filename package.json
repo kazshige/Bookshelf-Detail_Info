@@ -6,8 +6,8 @@
   "scripts": {
     "seed": "node database/generator.js",
     "start": "node server/index.js",
-    "build": "webpack --config ./client/webpack.config.js -p",
-    "start-frontend": "webpack --config ./client/webpack.config.js --dev --watch",
+    "build": "webpack --config ./webpack.config.js -p",
+    "start-frontend": "webpack --config ./webpack.config.js --dev --watch",
     "start:dev": "nodemon server/index.js"
   },
   "keywords": [],
@@ -44,7 +44,7 @@
     "jest": "^24.5.0",
     "morgan": "^1.9.1",
     "mysql": "^2.16.0",
-    "nodemon": "^1.18.10",
+    "nodemon": "^1.18.11",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "^4.3.1",

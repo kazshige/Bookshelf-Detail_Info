@@ -1,3 +1,5 @@
+/* eslint-disable arrow-parens */
+/* eslint-disable class-methods-use-this */
 const AWS = require('aws-sdk');
 const config = require('./config')
 const s3Config = require('./s3')
@@ -8,18 +10,25 @@ const faker = require('faker');
 const s3 = new AWS.S3({
   region: 'ap-northeast-1',
   accessKeyId: s3Config.accessKeyID,
-  secretAccessKey: s3Config.secretAccessKey,
+  secretAccessKey: s3Config.secretAccessKey
 });
 
 const createDB = () => {
-  return db.queryAsync(`
-    CREATE TABLE IF NOT EXISTS bookInfo (
-      id INT NOT NULL AUTO_INCREMENT,
-      title VARCHAR(100) NOT NULL,
-      author VARCHAR(100) NOT NULL,
-      description TEXT NOT NULL,
-      PRIMARY KEY (id)
-      );`)
+  return db.queryAsync('CREATE DATABASE IF NOT EXISTS books')
+    .then(() => {
+      console.log('books created')
+      return db.queryAsync('use books');
+    })
+    .then(()=> {
+      return db.queryAsync(`
+        CREATE TABLE IF NOT EXISTS bookInfo (
+          id INT NOT NULL AUTO_INCREMENT,
+          title VARCHAR(100) NOT NULL,
+          author VARCHAR(100) NOT NULL,
+          description TEXT NOT NULL,
+          PRIMARY KEY (id)
+      );`);
+    })
     .then(() => {
       return db.queryAsync(`
         CREATE TABLE IF NOT EXISTS image (
@@ -117,8 +126,9 @@ class DummyDataGenerator {
         if (isTruncated) {
           marker = response.Contents.slice(-1)[0].Key;
         }
+
     } catch(error) {
-    throw error;
+      throw error;
     }
   }
   return items
@@ -202,9 +212,12 @@ class DummyDataGenerator {
 
   async seedData() {
     try{
-      await  createDB()
+      await createDB();
+      console.log('db created');
       await this.seedUsers();
+      console.log('users')
       await this.seedBookInfo();
+      console.log('info')
       await this.seedShelf();
     }catch(e){
       console.log("=====error", e.message)
@@ -216,5 +229,6 @@ class DummyDataGenerator {
 new DummyDataGenerator()
 .seedData()
 .then(() => {
+  console.log('done');
   db.close()
 });

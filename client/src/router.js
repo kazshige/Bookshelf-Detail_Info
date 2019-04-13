@@ -7,7 +7,7 @@ export default () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={App}/>
+        {/* <Route exact path="/" component={App}/> */}
         <Route path="/books/:id" component={App}/>
       </Switch>
     </Router>

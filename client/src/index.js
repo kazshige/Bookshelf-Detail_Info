@@ -4,7 +4,7 @@ import Router from './router';
 
 ReactDOM.render(
   <Router/>,
-  document.getElementById('app')
+  document.getElementById('main')
 );
 
 module.hot.accept();
