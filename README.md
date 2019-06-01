@@ -4,7 +4,7 @@ Bookshelf is a single-page social catalog for books with dynamic product display
 
 ## Table of Contents
 
-1. [Application Features](#application features)
+1. [Application Features](#application)
 1. [Usage](#usage)
 1. [Requirements](#requirements)
 1. [Development](#development)
